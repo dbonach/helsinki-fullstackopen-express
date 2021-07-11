@@ -28,6 +28,17 @@ app.get('/api/persons', (req, res) => {
   res.json(phonebook)
 })
 
+app.get('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const contact = phonebook.filter((c) => c.id === id)
+
+  if (contact.length === 0) {
+    return res.status(404).send(`The person with id ${id} doesn't exist in the server.`)
+  }
+
+  res.json(contact)
+})
+
 app.get('/info', (req, res) => {
   const msg = `Phonebook has info for ${phonebook.length} people`
     + '<br/><br/>' + `${new Date}`;
