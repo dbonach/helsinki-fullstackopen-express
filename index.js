@@ -39,6 +39,13 @@ app.get('/api/persons/:id', (req, res) => {
   res.json(contact)
 })
 
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+
+  phonebook = phonebook.filter(c => c.id !== id)
+  res.status(204).end()
+})
+
 app.get('/info', (req, res) => {
   const msg = `Phonebook has info for ${phonebook.length} people`
     + '<br/><br/>' + `${new Date}`;
