@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 let morgan = require('morgan')
 
 app.use(express.json())
+app.use(cors())
 
 morgan.token('data', function (req, res) {
   return JSON.stringify(req.body).length === 2 ? null : JSON.stringify(req.body)
