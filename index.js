@@ -5,6 +5,7 @@ let morgan = require('morgan')
 
 app.use(express.json())
 app.use(cors())
+app.use(express.static('build'))
 
 morgan.token('data', function (req, res) {
   return JSON.stringify(req.body).length === 2 ? null : JSON.stringify(req.body)
