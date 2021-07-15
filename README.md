@@ -26,7 +26,7 @@ The files are configured to be deployed to Heroku.
 - If a new name is added, a post request will be generated and from its response the app state will be updated with the new contact.
 - Clicking on `remove` will generate a delete request to the JSON Server and then the app state will be updated.
 - When a contact is added a success message is shown.
-- If the user tries to remove a contact that was already removed an error message will be shown.
+- If the user tries to remove a contact that was already removed, an error message will be shown.
 - The backend has endpoints to get, post and delete contacts. The update function wasn't implemented yet.
 
 <br/>
