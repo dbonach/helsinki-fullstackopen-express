@@ -46,8 +46,19 @@ app.post('/api/persons', (req, res) => {
 })
 
 // app.get('/api/persons/:id', (req, res) => {
-//   const id = Number(req.params.id)
-//   const contact = phonebook.filter((c) => c.id === id)
+//   Note.findById(request.params.id)
+//     .then(note => {
+//       if (note) {
+//         res.json(note)
+//       } else {
+//         res.status(404).end()
+//       }
+//     })
+//     .catch(error => {
+//       console.log(error);
+//       res.status(500).end()
+//     })
+
 
 //   if (contact.length === 0) {
 //     return res.status(404).send(`The person with id ${id} doesn't exist in the server.`)
@@ -56,12 +67,15 @@ app.post('/api/persons', (req, res) => {
 //   res.json(contact)
 // })
 
-// app.delete('/api/persons/:id', (req, res) => {
-//   const id = Number(req.params.id)
-
-//   phonebook = phonebook.filter(c => c.id !== id)
-//   res.status(204).end()
-// })
+app.delete('/api/persons/:id', (req, res) => {
+  Contact.findByIdAndDelete(req.params.id)
+    .then(result => {
+      res.status(204).end()
+    })
+    .catch(error => {
+      console.log('error deleting on the database:', error.message)
+    })
+})
 
 // app.get('/info', (req, res) => {
 //   const msg = `Phonebook has info for ${phonebook.length} people`
