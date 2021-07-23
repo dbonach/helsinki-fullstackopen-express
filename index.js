@@ -3,6 +3,7 @@ const cors = require('cors')
 let morgan = require('morgan')
 require('dotenv').config()
 const Contact = require('./models/contact')
+const { response } = require('express')
 const app = express()
 
 app.use(cors())
@@ -77,6 +78,26 @@ app.post('/api/persons', (req, res) => {
 
 //   res.json(contact)
 // })
+
+app.put('/api/persons/:id', (req, res, next) => {
+  const body = req.body
+
+  if (!body.number) {
+    return res.status(400).json({
+      error: 'missing name or number'
+    })
+  }
+
+  const contact = {
+    number: body.number
+  }
+
+  Contact.findByIdAndUpdate(req.params.id, contact, { new: true })
+    .then(updatedContact => {
+      res.json(updatedContact)
+    })
+    .catch(error => next(error))
+})
 
 app.delete('/api/persons/:id', (req, res) => {
   Contact.findByIdAndDelete(req.params.id)
