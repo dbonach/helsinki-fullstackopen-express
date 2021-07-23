@@ -57,27 +57,18 @@ app.post('/api/persons', (req, res) => {
 
 })
 
-// app.get('/api/persons/:id', (req, res) => {
-//   Note.findById(request.params.id)
-//     .then(note => {
-//       if (note) {
-//         res.json(note)
-//       } else {
-//         res.status(404).end()
-//       }
-//     })
-//     .catch(error => {
-//       console.log(error);
-//       res.status(500).end()
-//     })
-
-
-//   if (contact.length === 0) {
-//     return res.status(404).send(`The person with id ${id} doesn't exist in the server.`)
-//   }
-
-//   res.json(contact)
-// })
+app.get('/api/persons/:id', (req, res, next) => {
+  Contact.findById(req.params.id)
+    .then(contact => {
+      if (contact) {
+        res.json(contact)
+      } else {
+        res.status(404).send(`The person with id 
+        ${req.params.id} doesn't exist in the server.`)
+      }
+    })
+    .catch(error => next(error))
+})
 
 app.put('/api/persons/:id', (req, res, next) => {
   const body = req.body
@@ -109,12 +100,15 @@ app.delete('/api/persons/:id', (req, res) => {
     })
 })
 
-// app.get('/info', (req, res) => {
-//   const msg = `Phonebook has info for ${phonebook.length} people`
-//     + '<br/><br/>' + `${new Date}`;
+app.get('/info', (req, res) => {
 
-//   res.send(msg)
-// })
+  Contact.find({}).then(list => {
+    const msg = `Phonebook has info for ${list.length} people`
+      + '<br/><br/>' + `${new Date}`;
+
+    res.send(msg)
+  })
+})
 
 app.use(errorHandler)
 
