@@ -22,31 +22,28 @@ app.get('/api/persons', (req, res) => {
   })
 })
 
-// app.post('/api/persons', (req, res) => {
-//   const body = req.body
+app.post('/api/persons', (req, res) => {
+  const body = req.body
 
-//   if (!body.name && !body.number) {
-//     return res.status(400).json({
-//       error: 'Request should contain name and number!'
-//     })
-//   }
+  if (!body.name && !body.number) {
+    return res.status(400).json({
+      error: 'Request should contain name and number!'
+    })
+  }
 
-//   if (phonebook.find(p => p.name === body.name)) {
-//     return res.status(400).json({
-//       error: 'name must be unique'
-//     })
-//   }
+  const contact = new Contact({
+    name: body.name,
+    number: body.number,
+  })
 
-//   const contact = {
-//     id: parseInt(Math.random() * 1000),
-//     name: body.name,
-//     number: body.number,
-//   }
+  contact.save().then(savedContact => {
+    res.json(savedContact)
+  })
+    .catch((error) => {
+      console.log('error saving to the database:', error.message);
+    })
 
-//   phonebook = phonebook.concat(contact)
-
-//   res.json(contact)
-// })
+})
 
 // app.get('/api/persons/:id', (req, res) => {
 //   const id = Number(req.params.id)
