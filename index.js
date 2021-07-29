@@ -3,7 +3,6 @@ const cors = require('cors')
 let morgan = require('morgan')
 require('dotenv').config()
 const Contact = require('./models/contact')
-const { response } = require('express')
 const app = express()
 
 app.use(cors())
@@ -11,7 +10,7 @@ app.use(express.static('build'))
 app.use(express.json())
 
 const errorHandler = (error, request, response, next) => {
-  console.log(error.message);
+  console.log(error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
@@ -22,7 +21,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-morgan.token('data', function (req, res) {
+morgan.token('data', function (req) {
   return JSON.stringify(req.body).length === 2 ? null : JSON.stringify(req.body)
 })
 
@@ -73,7 +72,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 app.put('/api/persons/:id', (req, res, next) => {
   const body = req.body
 
-  if (!body.number) {
+  if (body.number === undefined) {
     return res.status(400).json({
       error: 'missing name or number'
     })
@@ -92,7 +91,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res) => {
   Contact.findByIdAndDelete(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => {
@@ -104,7 +103,7 @@ app.get('/info', (req, res) => {
 
   Contact.find({}).then(list => {
     const msg = `Phonebook has info for ${list.length} people`
-      + '<br/><br/>' + `${new Date}`;
+      + '<br/><br/>' + `${new Date}`
 
     res.send(msg)
   })
@@ -112,6 +111,7 @@ app.get('/info', (req, res) => {
 
 app.use(errorHandler)
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
 if (process.argv.length !== 3 && process.argv.length !== 5) {
-  console.log('Please provide the password as an argument: node mongo.js <password>');
-  console.log('or');
-  console.log('node mongo.js <password> <name> <phone-number>');
+  console.log('Please provide the password as an argument: node mongo.js <password>')
+  console.log('or')
+  console.log('node mongo.js <password> <name> <phone-number>')
   process.exit(1)
 }
 
@@ -34,16 +35,16 @@ if (process.argv.length === 5) {
   })
 
   contact.save().then(result => {
-    console.log(`added ${result.name} number ${result.number} to phonebook`);
+    console.log(`added ${result.name} number ${result.number} to phonebook`)
     mongoose.connection.close()
   })
 
 } else {
 
   Contact.find({}).then(result => {
-    console.log("phonebook:");
+    console.log('phonebook:')
     result.forEach(contact => {
-      console.log(contact.name, contact.number);
+      console.log(contact.name, contact.number)
     })
     mongoose.connection.close()
   })
